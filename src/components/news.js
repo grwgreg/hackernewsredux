@@ -1,29 +1,15 @@
-import React from 'react';
+import React from 'react'
 import { connect } from 'react-redux'
 
-function loadNews(dispatch) {
-  console.log('loading news');
-  dispatch({
-    type: 'LOAD_NEWS'
-  })
-}
-
-function thunkTest(dispatch) {
-  console.log('thunkTest fn');
-  dispatch((realDispatch,getState) => {
-    realDispatch({type: 'THUNK_TEST_START'})
-    setTimeout(() => realDispatch({ type: 'THUNK_TEST_LOADED' }), 5000)
-  })
-}
+import { loadNews } from '../actions'
 
 const News = React.createClass({
   render() {
-    const {dispatch} = this.props
+    const {loadNews} = this.props
     return (
       <div>
         <h3>News</h3>
-        <button onClick={loadNews.bind(null,dispatch)}>Load News</button>
-        <button onClick={thunkTest.bind(null,dispatch)}>thunktest</button>
+        <button onClick={loadNews}>Load News</button>
       </div>
     )
   }
@@ -36,4 +22,8 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps)(News);
+export default connect(mapStateToProps,
+  {
+    loadNews
+  }
+)(News)

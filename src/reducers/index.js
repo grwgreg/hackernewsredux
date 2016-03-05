@@ -1,7 +1,23 @@
-import { combineReducers } from 'redux';
+import t from '../actions/actiontypes'
+const initialState = {}
+function newsItems(state = initialState, action) {
+                               
+  switch (action.type) {
 
-const rootReducer = combineReducers({
-  state: (state = {helloimstate: 'hello'}) => state
-});
+    case t.LOAD_NEWS_START:
+      //todo loading state
 
-export default rootReducer;
+    case t.LOAD_NEWS_SUCCESS:
+
+      return Object.assign({}, state, {
+        items: action.payload
+      }) 
+    
+    default:
+      return state
+  }
+} 
+
+module.exports = {
+  newsItems
+}
