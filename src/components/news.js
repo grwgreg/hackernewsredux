@@ -13,11 +13,11 @@ const News = React.createClass({
   },
   render() {
     const {loadNews} = this.props
-    const {loading, items} = this.props.newsItems
+    const {loading, items, currentlyDisplaying} = this.props.newsItems
 
     const spinner = loading ? 'LOADING' : ''
 
-    const list = items.map((item,i) => {
+    const list = items.slice(0,currentlyDisplaying).map((item,i) => {
       //TODO make comments a link to comments route
       const comments = item.descendants + ' Comments'
 
@@ -39,8 +39,8 @@ const News = React.createClass({
     return (
       <div>
         <h3>News</h3>
+        <button onClick={loadNews.bind(null,false)}>Load News</button>
         <div className='loading'>{spinner}</div>
-        <button onClick={loadNews}>Load News</button>
         <ul className='news-items'>{list}</ul>
       </div>
     )

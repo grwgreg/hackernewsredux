@@ -1,51 +1,73 @@
-import t from './actiontypes'
+import c from '../constants'
 import fetch from 'isomorphic-fetch'
 
-const URL = 'https://hacker-news.firebaseio.com/v0/'
-const PER_PAGE = 30
+
+function loadNewsStart(initialLoad) {
+  return {
+    type: c.LOAD_NEWS_START,
+    payload: {
+      initialLoad
+    }
+  }
+}
 
 function loadNewsSuccess(data) {
   return {
-    type: t.LOAD_NEWS_SUCCESS,
-    payload: data
+    type: c.LOAD_NEWS_SUCCESS,
+    payload: {
+      data
+    }
   }
 }
 
 function loadNewsError(err) {
   return {
-    type: t.LOAD_NEWS_ERROR,
+    type: c.LOAD_NEWS_ERROR,
     payload: err
   }
 }
 
-export function loadNews() {
+function loadNewsIncrementDisplaying(count) {
+  return {
+    type: c.LOAD_NEWS_INCREMENT_DISPLAYING,
+    payload: count
+  }
+}
+
+export function loadNews(initialLoad=true) {
   return (dispatch, getState) => {
 
-    const state = getState()
-    console.log('loadnws action state', state)
-    //TODO do check here for loading state and I guess just ignore it if load in progress?
+    let state = getState()
+    if (state.newsItems.loading) {
+      console.log('already in loading state')
+      return
+    }
 
-    dispatch({
-      type: t.LOAD_NEWS_START
-    })
-
-    //todo cache here
-    fetch(URL + 'topstories.json').then(res=>{
-      if (res.status >= 400) {
-        dispatch(loadNewsError(res))
-      } else return res.json()
-    })
-    .then(json => {
-      //making 31 reqs will be slow bc concurrent connection limit...
-      //https://www.npmjs.com/package/http-proxy maybe make a small server
+    dispatch(loadNewsStart(initialLoad))
+    //by dispatching action we alter state, so call again
+    state = getState()
+    const itemCount = state.newsItems.items.length
+    if (state.newsItems.currentlyDisplaying + c.PER_PAGE <= itemCount) {
+      dispatch(loadNewsIncrementDisplaying(c.PER_PAGE))
+    } else {
       //todo cache here
-      return Promise.all(
-        json.slice(0, PER_PAGE).map(item => fetch(`${URL}item/${item}.json`))
-      )
-    })
-    .catch(err => dispatch(loadNewsError(res)))
-    //todo check all item responses for 404? or will above catch work?
-    .then(items => Promise.all(items.map(item =>item.json())))
-    .then(json => dispatch(loadNewsSuccess(json)))
+      fetch(c.URL + 'topstories.json').then(res=>{
+        if (res.status >= 400) {
+          dispatch(loadNewsError(res))
+        } else return res.json()
+      })
+      .then(json => {
+        //making 31 reqs will be slow bc concurrent connection limit...
+        //https://www.npmjs.com/package/http-proxy maybe make a small server
+        const start = state.newsItems.currentlyDisplaying
+        return Promise.all(
+          json.slice(start, start + c.PER_PAGE).map(item => fetch(`${c.URL}item/${item}.json`))
+        )
+      })
+      .catch(err => dispatch(loadNewsError(res)))
+      //todo check all item responses for 404? or will above catch work?
+      .then(items => Promise.all(items.map(item =>item.json())))
+      .then(json => dispatch(loadNewsSuccess(json)))
+    }
   }
 }
