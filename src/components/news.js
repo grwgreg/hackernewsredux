@@ -2,13 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { loadNews } from '../actions'
+import styles from '../styles/news.scss'
 
 //TODO this needs proptypes thing (does it really tho? lol)
 const News = React.createClass({
   componentDidMount () {
-    //TODO when I navigate to another route and back have to prevent unneeded ajax call+.items push of same data...
-    //maybe make an initialLoadNews or keep state of pagination and check that in action
-    //keep infinite scrolling or pagination in mind
     this.props.loadNews()
   },
   render() {
@@ -37,8 +35,8 @@ const News = React.createClass({
     })
 
     return (
-      <div>
-        <h3>News</h3>
+      <div className={styles.why}>
+        <h3 className={styles.hello}>News</h3>
         <button onClick={loadNews.bind(null,false)}>Load News</button>
         <div className='loading'>{spinner}</div>
         <ul className='news-items'>{list}</ul>

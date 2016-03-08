@@ -1,0 +1,10 @@
+body {
+  background: pink;
+}
+
+.green {
+  background: green;
+  > li:first-child{
+    background: orange;
+  }
+}

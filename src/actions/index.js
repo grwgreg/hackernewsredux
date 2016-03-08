@@ -47,6 +47,9 @@ export function loadNews(initialLoad=true) {
     //by dispatching action we alter state, so call again
     state = getState()
     const itemCount = state.newsItems.items.length
+    //if number of items in current store is >= what we need can just
+    //increment the number of posts to display
+    //else we fetch the new posts
     if (state.newsItems.currentlyDisplaying + c.PER_PAGE <= itemCount) {
       dispatch(loadNewsIncrementDisplaying(c.PER_PAGE))
     } else {
