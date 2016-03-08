@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import App from './components/app.js';
-import News from './components/news.js';
-import Show from './components/show.js';
+import App from './containers/App.js';
+import News from './containers/News.js';
+import Show from './containers/Show.js';
 
 const routes = ( 
   <Route path="/" component={App}>

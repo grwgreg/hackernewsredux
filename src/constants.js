@@ -12,7 +12,12 @@ const actionTypes = makeConstants([
   'LOAD_NEWS_INCREMENT_DISPLAYING'
 ])
 
-export default Object.assign({}, actionTypes, {
+const newsTypes = makeConstants([
+  'TOP_STORIES',
+  'SHOW_STORIES'
+])
+
+export default Object.assign({}, newsTypes, actionTypes, {
   PER_PAGE: 30,
   URL: 'https://hacker-news.firebaseio.com/v0/'
 })

@@ -1,17 +1,15 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-import { loadNews } from '../actions'
 import styles from '../styles/news.scss'
 
 //TODO this needs proptypes thing (does it really tho? lol)
-const News = React.createClass({
+const NewsList = React.createClass({
   componentDidMount () {
-    this.props.loadNews()
+    this.props.onLoad()
   },
   render() {
-    const {loadNews} = this.props
-    const {loading, items, currentlyDisplaying} = this.props.newsItems
+    const {onLoad} = this.props
+    const {loading, items, currentlyDisplaying} = this.props.list
 
     const spinner = loading ? 'LOADING' : ''
 
@@ -37,7 +35,7 @@ const News = React.createClass({
     return (
       <div className={styles.why}>
         <h3 className={styles.hello}>News</h3>
-        <button onClick={loadNews.bind(null,false)}>Load News</button>
+        <button onClick={onLoad.bind(null,false)}>Load News</button>
         <div className='loading'>{spinner}</div>
         <ul className='news-items'>{list}</ul>
       </div>
@@ -45,15 +43,5 @@ const News = React.createClass({
   }
 })
 
-function mapStateToProps(state) {
-  return {
-    newsItems: state.newsItems
-  }
-}
 
-
-export default connect(mapStateToProps,
-  {
-    loadNews
-  }
-)(News)
+export default NewsList

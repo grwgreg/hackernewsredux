@@ -4,17 +4,20 @@ const initialState = {
   currentlyDisplaying: 0,
   items: []
 }
-function newsItems(state = initialState, action) {
+
+function newsReducer(newsType, state = initialState, action) {
                                
   switch (action.type) {
 
     case c.LOAD_NEWS_START:
+      if (action.payload.newsType !== newsType) return state
       return Object.assign({}, state, {
         loading: true,
         currentlyDisplaying: action.payload.initialLoad ? 0 : state.currentlyDisplaying
       })
 
     case c.LOAD_NEWS_SUCCESS:
+      if (action.payload.newsType !== newsType) return state
       return Object.assign({}, state, {
         items: [...state.items, ...action.payload.data],
         loading: false,
@@ -22,8 +25,9 @@ function newsItems(state = initialState, action) {
       }) 
 
     case c.LOAD_NEWS_INCREMENT_DISPLAYING:
+      if (action.payload.newsType !== newsType) return state
       return Object.assign({}, state, {
-        currentlyDisplaying: state.currentlyDisplaying + action.payload,
+        currentlyDisplaying: state.currentlyDisplaying + action.payload.count,
         loading: false
       })
     
@@ -33,5 +37,6 @@ function newsItems(state = initialState, action) {
 } 
 
 module.exports = {
-  newsItems
+  [c.TOP_STORIES]: newsReducer.bind(null, c.TOP_STORIES),
+  [c.SHOW_STORIES]: newsReducer.bind(null, c.SHOW_STORIES)
 }

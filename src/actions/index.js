@@ -2,67 +2,78 @@ import c from '../constants'
 import fetch from 'isomorphic-fetch'
 
 
-function loadNewsStart(initialLoad) {
+function loadNewsStart(initialLoad, newsType) {
   return {
     type: c.LOAD_NEWS_START,
     payload: {
-      initialLoad
+      initialLoad,
+      newsType
     }
   }
 }
 
-function loadNewsSuccess(data) {
+function loadNewsSuccess(data, newsType) {
   return {
     type: c.LOAD_NEWS_SUCCESS,
     payload: {
-      data
+      data,
+      newsType
     }
   }
 }
 
-function loadNewsError(err) {
+function loadNewsError(err, newsType) {
   return {
     type: c.LOAD_NEWS_ERROR,
-    payload: err
+    payload: {
+      err,
+      newsType
+    }
   }
 }
 
-function loadNewsIncrementDisplaying(count) {
+function loadNewsIncrementDisplaying(count, newsType) {
   return {
     type: c.LOAD_NEWS_INCREMENT_DISPLAYING,
-    payload: count
+    payload: {
+      count,
+      newsType
+    }
   }
 }
-
-export function loadNews(initialLoad=true) {
+const endPoints = {
+  [c.TOP_STORIES]: c.URL + 'topstories.json',
+  [c.SHOW_STORIES]: c.URL + 'showstories.json'
+}
+function loadNews(newsType,initialLoad) {
   return (dispatch, getState) => {
 
     let state = getState()
-    if (state.newsItems.loading) {
+    if (state[newsType].loading) {
       console.log('already in loading state')
       return
     }
 
-    dispatch(loadNewsStart(initialLoad))
+    dispatch(loadNewsStart(initialLoad, newsType))
     //by dispatching action we alter state, so call again
     state = getState()
-    const itemCount = state.newsItems.items.length
+    const itemCount = state[newsType].items.length
     //if number of items in current store is >= what we need can just
     //increment the number of posts to display
     //else we fetch the new posts
-    if (state.newsItems.currentlyDisplaying + c.PER_PAGE <= itemCount) {
-      dispatch(loadNewsIncrementDisplaying(c.PER_PAGE))
+    if (state[newsType].currentlyDisplaying + c.PER_PAGE <= itemCount) {
+      dispatch(loadNewsIncrementDisplaying(c.PER_PAGE, newsType))
     } else {
       //todo cache here
-      fetch(c.URL + 'topstories.json').then(res=>{
+      fetch(endPoints[newsType]).then(res=>{
         if (res.status >= 400) {
-          dispatch(loadNewsError(res))
+          dispatch(loadNewsError(res, newsType))
         } else return res.json()
       })
       .then(json => {
         //making 31 reqs will be slow bc concurrent connection limit...
         //https://www.npmjs.com/package/http-proxy maybe make a small server
-        const start = state.newsItems.currentlyDisplaying
+        const start = state[newsType].currentlyDisplaying
         return Promise.all(
           json.slice(start, start + c.PER_PAGE).map(item => fetch(`${c.URL}item/${item}.json`))
         )
@@ -70,7 +81,15 @@ export function loadNews(initialLoad=true) {
       .catch(err => dispatch(loadNewsError(res)))
       //todo check all item responses for 404? or will above catch work?
       .then(items => Promise.all(items.map(item =>item.json())))
-      .then(json => dispatch(loadNewsSuccess(json)))
+      .then(json => dispatch(loadNewsSuccess(json, newsType)))
     }
   }
+}
+
+export function loadTopStories(initialLoad=true) {
+  return loadNews(c.TOP_STORIES, initialLoad)
+}
+
+export function loadShowStories(initialLoad=true) {
+  return loadNews(c.SHOW_STORIES, initialLoad)
 }
