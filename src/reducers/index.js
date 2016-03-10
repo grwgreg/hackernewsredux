@@ -38,5 +38,8 @@ function newsReducer(newsType, state = initialState, action) {
 
 module.exports = {
   [c.TOP_STORIES]: newsReducer.bind(null, c.TOP_STORIES),
-  [c.SHOW_STORIES]: newsReducer.bind(null, c.SHOW_STORIES)
+  [c.SHOW_STORIES]: newsReducer.bind(null, c.SHOW_STORIES),
+  [c.ASK_STORIES]: newsReducer.bind(null, c.ASK_STORIES),
+  [c.JOB_STORIES]: newsReducer.bind(null, c.JOB_STORIES),
+  [c.NEW_STORIES]: newsReducer.bind(null, c.NEW_STORIES)
 }

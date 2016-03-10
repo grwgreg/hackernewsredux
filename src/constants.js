@@ -14,7 +14,10 @@ const actionTypes = makeConstants([
 
 const newsTypes = makeConstants([
   'TOP_STORIES',
-  'SHOW_STORIES'
+  'SHOW_STORIES',
+  'ASK_STORIES',
+  'JOB_STORIES',
+  'NEW_STORIES'
 ])
 
 export default Object.assign({}, newsTypes, actionTypes, {

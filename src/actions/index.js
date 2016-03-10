@@ -1,6 +1,13 @@
 import c from '../constants'
 import fetch from 'isomorphic-fetch'
 
+const endPoints = {
+  [c.TOP_STORIES]: c.URL + 'topstories.json',
+  [c.SHOW_STORIES]: c.URL + 'showstories.json',
+  [c.ASK_STORIES]: c.URL + 'askstories.json',
+  [c.JOB_STORIES]: c.URL + 'jobstories.json',
+  [c.NEW_STORIES]: c.URL + 'newstories.json'
+}
 
 function loadNewsStart(initialLoad, newsType) {
   return {
@@ -41,10 +48,7 @@ function loadNewsIncrementDisplaying(count, newsType) {
     }
   }
 }
-const endPoints = {
-  [c.TOP_STORIES]: c.URL + 'topstories.json',
-  [c.SHOW_STORIES]: c.URL + 'showstories.json'
-}
+
 function loadNews(newsType,initialLoad) {
   return (dispatch, getState) => {
 
@@ -74,6 +78,8 @@ function loadNews(newsType,initialLoad) {
         //making 31 reqs will be slow bc concurrent connection limit...
         //https://www.npmjs.com/package/http-proxy maybe make a small server
         const start = state[newsType].currentlyDisplaying
+//will need logic here to make sure we still have posts to display
+//maybe dispatch a new action if so
         return Promise.all(
           json.slice(start, start + c.PER_PAGE).map(item => fetch(`${c.URL}item/${item}.json`))
         )
@@ -92,4 +98,16 @@ export function loadTopStories(initialLoad=true) {
 
 export function loadShowStories(initialLoad=true) {
   return loadNews(c.SHOW_STORIES, initialLoad)
+}
+
+export function loadAskStories(initialLoad=true) {
+  return loadNews(c.ASK_STORIES, initialLoad)
+}
+
+export function loadJobStories(initialLoad=true) {
+  return loadNews(c.JOB_STORIES, initialLoad)
+}
+
+export function loadNewStories(initialLoad=true) {
+  return loadNews(c.NEW_STORIES, initialLoad)
 }

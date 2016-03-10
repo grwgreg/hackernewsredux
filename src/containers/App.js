@@ -10,7 +10,10 @@ const App = React.createClass({
         <h1>App</h1>
         <ul className={styles.green}>
           <li><Link to="/news">news</Link></li>
+          <li><Link to="/newest">new</Link></li>
           <li><Link to="/show">show</Link></li>
+          <li><Link to="/ask">ask</Link></li>
+          <li><Link to="/jobs">jobs</Link></li>
         </ul>
         {this.props.children}
       </div>
