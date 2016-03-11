@@ -12,6 +12,7 @@ const Show = React.createClass({
       <NewsList
         onLoad={this.props.loadShowStories}
         list={this.props.showStories}  
+        newsType={c.SHOW_STORIES}
       />
     )
   }

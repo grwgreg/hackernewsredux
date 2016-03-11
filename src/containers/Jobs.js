@@ -12,6 +12,7 @@ const Jobs = React.createClass({
       <NewsList
         onLoad={this.props.loadJobStories}
         list={this.props.jobStories}  
+        newsType={c.JOB_STORIES}
       />
     )
   }

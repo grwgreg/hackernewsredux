@@ -1,6 +1,9 @@
 import React from 'react'
 
+import c from '../constants.js'
 import styles from '../styles/news.scss'
+import NewsItem from './NewsItem'
+import JobItem from './JobItem'
 
 //TODO this needs proptypes thing (does it really tho? lol)
 const NewsList = React.createClass({
@@ -8,28 +11,15 @@ const NewsList = React.createClass({
     this.props.onLoad()
   },
   render() {
-    const {onLoad} = this.props
+    const {onLoad, newsType} = this.props
     const {loading, items, currentlyDisplaying} = this.props.list
 
     const spinner = loading ? 'LOADING' : ''
 
     const list = items.slice(0,currentlyDisplaying).map((item,i) => {
-      //TODO make comments a link to comments route
-      const comments = item.descendants + ' Comments'
-
-      return (
-        <li key={item.id}>
-          <div>Post {i+1}</div>
-          <h2>
-            <a href={item.url} target="_blank">{item.title}</a>
-            <span><a href='#'>(TODO the sites base url)</a></span>
-          </h2>
-          <div>{item.score} points</div>
-          <div>by {item.by}</div>
-          <div>{item.time} time ago TODO</div>
-          <div>{comments}</div>
-        </li>
-      )
+      return newsType === c.JOB_STORIES
+        ? <JobItem item={item} index={i} key={item.id} />
+        : <NewsItem item={item} index={i} key={item.id} />
     })
 
     return (

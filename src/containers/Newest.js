@@ -12,6 +12,7 @@ const Newest = React.createClass({
       <NewsList
         onLoad={this.props.loadNewStories}
         list={this.props.newStories}  
+        newsType={c.NEW_STORIES}
       />
     )
   }
