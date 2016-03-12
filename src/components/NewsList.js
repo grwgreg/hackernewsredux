@@ -10,9 +10,14 @@ const NewsList = React.createClass({
   componentDidMount () {
     this.props.onLoad()
   },
+  fetchMore() {
+    if (this.props.list.currentlyDisplaying < this.props.list.totalItems){
+      this.props.onLoad(false)
+    }
+  },
   render() {
     const {onLoad, newsType} = this.props
-    const {loading, items, currentlyDisplaying} = this.props.list
+    const {totalItems, loading, items, currentlyDisplaying} = this.props.list
 
     const spinner = loading ? 'LOADING' : ''
 
@@ -25,7 +30,7 @@ const NewsList = React.createClass({
     return (
       <div className={styles.why}>
         <h3 className={styles.hello}>News</h3>
-        <button onClick={onLoad.bind(null,false)}>Load News</button>
+        <button onClick={this.fetchMore}>Load News</button>
         <div className='loading'>{spinner}</div>
         <ul className='news-items'>{list}</ul>
       </div>

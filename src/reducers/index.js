@@ -2,6 +2,7 @@ import c from '../constants'
 const initialState = {
   loading: false,
   currentlyDisplaying: 0,
+  totalItems: 0,
   items: []
 }
 
@@ -29,6 +30,12 @@ function newsReducer(newsType, state = initialState, action) {
       return Object.assign({}, state, {
         currentlyDisplaying: state.currentlyDisplaying + action.payload.count,
         loading: false
+      })
+
+    case c.SET_NEWS_TOTAL_ITEMS:
+      if (action.payload.newsType !== newsType) return state
+      return Object.assign({}, state, {
+        totalItems: action.payload.count
       })
     
     default:

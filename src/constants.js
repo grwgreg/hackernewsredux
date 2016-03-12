@@ -9,7 +9,8 @@ const actionTypes = makeConstants([
   'LOAD_NEWS_START',
   'LOAD_NEWS_SUCCESS',
   'LOAD_NEWS_ERROR',
-  'LOAD_NEWS_INCREMENT_DISPLAYING'
+  'LOAD_NEWS_INCREMENT_DISPLAYING',
+  'SET_NEWS_TOTAL_ITEMS'
 ])
 
 const newsTypes = makeConstants([

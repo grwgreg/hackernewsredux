@@ -49,6 +49,16 @@ function loadNewsIncrementDisplaying(count, newsType) {
   }
 }
 
+function setNewsTotalItems(count, newsType) {
+  return {
+    type: c.SET_NEWS_TOTAL_ITEMS,
+    payload: {
+      count,
+      newsType
+    }
+  }
+}
+
 function loadNews(newsType,initialLoad) {
   return (dispatch, getState) => {
 
@@ -62,11 +72,20 @@ function loadNews(newsType,initialLoad) {
     //by dispatching action we alter state, so call again
     state = getState()
     const itemCount = state[newsType].items.length
-    //if number of items in current store is >= what we need can just
-    //increment the number of posts to display
-    //else we fetch the new posts
-    if (state[newsType].currentlyDisplaying + c.PER_PAGE <= itemCount) {
-      dispatch(loadNewsIncrementDisplaying(c.PER_PAGE, newsType))
+    const totalItems = state[newsType].totalItems
+    const currentlyDisplaying = state[newsType].currentlyDisplaying
+    const remaining = totalItems - currentlyDisplaying
+    const incrementBy = Math.min(c.PER_PAGE, remaining)
+
+    //we check if the items being requested are already in the state
+    //if they are we dispatch loadNewsIncrementDisplaying to increment the number of items displayed
+    //otherwise we fetch the data
+    if (totalItems && currentlyDisplaying === totalItems) {
+      //on initial load both totalItems and currentlyDisplaying are 0, so skip
+      throw new Error('There are no more items to display. This action should not have been called.')
+    } else if (incrementBy && currentlyDisplaying + incrementBy <= itemCount) {
+      //on initial load incrementBy has a value of 0 and we have no data to display, so skip
+      dispatch(loadNewsIncrementDisplaying(incrementBy, newsType))
     } else {
       //todo cache here
       fetch(endPoints[newsType]).then(res=>{
@@ -77,9 +96,8 @@ function loadNews(newsType,initialLoad) {
       .then(json => {
         //making 31 reqs will be slow bc concurrent connection limit...
         //https://www.npmjs.com/package/http-proxy maybe make a small server
+        if (json.length !== totalItems) dispatch(setNewsTotalItems(json.length, newsType))
         const start = state[newsType].currentlyDisplaying
-//will need logic here to make sure we still have posts to display
-//maybe dispatch a new action if so
         return Promise.all(
           json.slice(start, start + c.PER_PAGE).map(item => fetch(`${c.URL}item/${item}.json`))
         )
