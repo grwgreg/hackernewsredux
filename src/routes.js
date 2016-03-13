@@ -7,6 +7,7 @@ import Show from './containers/Show.js';
 import Ask from './containers/Ask.js';
 import Jobs from './containers/Jobs.js';
 import Newest from './containers/Newest.js';
+import Comments from './containers/Comments.js';
 
 const routes = ( 
   <Route path="/" component={App}>
@@ -16,6 +17,7 @@ const routes = (
     <Route path="/show" component={Show}/>
     <Route path="/ask" component={Ask}/>
     <Route path="/jobs" component={Jobs}/>
+    <Route path="/comments/:id" component={Comments}/>
   </Route>
 )
 

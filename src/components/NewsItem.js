@@ -1,11 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 //TODO this needs proptypes thing (does it really tho? lol)
 const NewsItem = React.createClass({
   render() {
     const {item, index} = this.props
 
-    const comments = item.descendants + ' Comments'
+    const comments = <Link to={`/comments/${item.id}`}>{item.descendants + ' Comments'}</Link>
 
     return (
       <li>
