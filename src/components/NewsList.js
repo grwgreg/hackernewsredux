@@ -11,13 +11,13 @@ const NewsList = React.createClass({
     this.props.onLoad()
   },
   fetchMore() {
-    if (this.props.list.currentlyDisplaying < this.props.list.totalItems){
+    if (this.props.list.currentlyDisplaying < this.props.list.loadableItems.length){
       this.props.onLoad(false)
     }
   },
   render() {
     const {onLoad, newsType} = this.props
-    const {totalItems, loading, items, currentlyDisplaying} = this.props.list
+    const {loading, items, currentlyDisplaying} = this.props.list
 
     const spinner = loading ? 'LOADING' : ''
 

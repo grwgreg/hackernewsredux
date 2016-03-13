@@ -49,11 +49,11 @@ function loadNewsIncrementDisplaying(count, newsType) {
   }
 }
 
-function setNewsTotalItems(count, newsType) {
+function setNewsLoadableItems(items, newsType) {
   return {
-    type: c.SET_NEWS_TOTAL_ITEMS,
+    type: c.SET_NEWS_LOADABLE_ITEMS,
     payload: {
-      count,
+      items,
       newsType
     }
   }
@@ -74,7 +74,8 @@ function loadNews(newsType, initialLoad) {
     //by dispatching action we alter state, so call again
     state = getState()
     const itemCount = state[newsType].items.length
-    const totalItems = state[newsType].totalItems
+    const loadableItems = state[newsType].loadableItems
+    const totalItems = loadableItems.length
     const currentlyDisplaying = state[newsType].currentlyDisplaying
     const remaining = totalItems - currentlyDisplaying
     const incrementBy = Math.min(c.PER_PAGE, remaining)
@@ -89,23 +90,31 @@ function loadNews(newsType, initialLoad) {
       //on initial load incrementBy has a value of 0 and we have no data to display, so skip
       dispatch(loadNewsIncrementDisplaying(incrementBy, newsType))
     } else {
-      //todo cache here
-      fetch(endPoints[newsType]).then(res=> res.json())
-      .then(json => {
+
+      const itemsPromise = loadableItems.length
+        ? Promise.resolve(loadableItems)
+        : fetch(endPoints[newsType])
+          .then(res=> res.json())
+          .then(items => {
+            dispatch(setNewsLoadableItems(items, newsType))
+            return items
+          })
+      itemsPromise.then(items => {
         //making 31 reqs will be slow bc concurrent connection limit...
         //https://www.npmjs.com/package/http-proxy maybe make a small server
-        if (json.length !== totalItems) dispatch(setNewsTotalItems(json.length, newsType))
         const start = state[newsType].currentlyDisplaying
 //TODO potential bug here if totalItems is less than c.PER_PAGE
 //should take min of totalItems and per page maybe?
         return Promise.all(
-          json.slice(start, start + c.PER_PAGE).map(item => fetch(`${c.URL}item/${item}.json`))
+          items
+            .slice(start, start + c.PER_PAGE)
+            .map(item => fetch(`${c.URL}item/${item}.json`))
         )
       })
-      .catch(err => dispatch(loadNewsError(res)))
       //todo check all item responses for 404? or will above catch work?
       .then(items => Promise.all(items.map(item =>item.json())))
       .then(json => dispatch(loadNewsSuccess(json, newsType)))
+      .catch(err => dispatch(loadNewsError(res)))
     }
   }
 }
