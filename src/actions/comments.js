@@ -28,6 +28,15 @@ function loadCommentsError(err) {
   }
 }
 
+function setCommentsCurrentId(id) {
+  return {
+    type: c.SET_COMMENTS_CURRENT_ID,
+    payload: {
+      id
+    }
+  }
+}
+
 function fetchComments(commentIds) {
   return Promise.all(commentIds.map(id=> {
     let comment
@@ -48,10 +57,15 @@ function fetchComments(commentIds) {
 }
 
 export function loadComments(id) {
-  return dispatch => {
-    dispatch(loadCommentsStart())
-    fetchComments([id]).then(([comments]) => {
-      dispatch(loadCommentsSuccess(comments))
-    })
+  return (dispatch, getState) => {
+    const state = getState()
+    if (state.comments.items[id]) {
+      dispatch(setCommentsCurrentId(id))
+    } else {
+      dispatch(loadCommentsStart())
+      fetchComments([id]).then(([comments]) => {
+        dispatch(loadCommentsSuccess(comments))
+      })
+    }
   }
 }

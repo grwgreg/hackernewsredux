@@ -13,7 +13,8 @@ const actionTypes = makeConstants([
   'SET_NEWS_TOTAL_ITEMS',
   'LOAD_COMMENTS_START',
   'LOAD_COMMENTS_SUCCESS',
-  'LOAD_COMMENTS_ERROR'
+  'LOAD_COMMENTS_ERROR',
+  'SET_COMMENTS_CURRENT_ID'
 ])
 
 const newsTypes = makeConstants([

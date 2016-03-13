@@ -16,6 +16,12 @@ function comments(state = initialState, action) {
         loading: true
       })
 
+    case c.SET_COMMENTS_CURRENT_ID:
+      return Object.assign({}, state, {
+        loading: false,
+        currentId: action.payload.id
+      })
+
     case c.LOAD_COMMENTS_SUCCESS:
       return Object.assign({}, state, {
         items: Object.assign({}, state.items, {[comments.id]: comments}),
