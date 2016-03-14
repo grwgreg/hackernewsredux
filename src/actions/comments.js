@@ -44,7 +44,8 @@ function fetchComments(commentIds) {
       .then(res=>res.json())
       .then(com => {
         comment = com
-        if (!comment.kids) return Promise.resolve([])//base case
+        //if (!comment.kids) return Promise.resolve([])//base case
+        if (!comment.kids) return []//base case
         return fetchComments(comment.kids)
       })
       .then(childComments=> ({

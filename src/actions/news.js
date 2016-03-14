@@ -68,8 +68,6 @@ function loadNews(newsType, initialLoad) {
       return
     }
 
-    //TODO can move this to above fetch i think
-    //TODO actually no? we need to reset currently displaying for initial load
     dispatch(loadNewsStart(initialLoad, newsType))
     //by dispatching action we alter state, so call again
     state = getState()
@@ -79,6 +77,7 @@ function loadNews(newsType, initialLoad) {
     const currentlyDisplaying = state[newsType].currentlyDisplaying
     const remaining = totalItems - currentlyDisplaying
     const incrementBy = Math.min(c.PER_PAGE, remaining)
+    const start = state[newsType].currentlyDisplaying
 
     //we check if the items being requested are already in the state
     //if they are we dispatch loadNewsIncrementDisplaying to increment the number of items displayed
@@ -86,11 +85,14 @@ function loadNews(newsType, initialLoad) {
     if (totalItems && currentlyDisplaying === totalItems) {
       //on initial load both totalItems and currentlyDisplaying are 0, so skip
       throw new Error('There are no more items to display. This action should not have been called.')
-    } else if (incrementBy && currentlyDisplaying + incrementBy <= itemCount) {
-      //on initial load incrementBy has a value of 0 and we have no data to display, so skip
+    } else if (totalItems && currentlyDisplaying + incrementBy <= itemCount) {
+      //on initial load we have no data to display, so skip
       dispatch(loadNewsIncrementDisplaying(incrementBy, newsType))
     } else {
 
+      //this promise will resolve to array of item ids
+      //if there currently are no loadableItems we fetch them and save in state
+      //TODO cache invalidation via a timestamp or something
       const itemsPromise = loadableItems.length
         ? Promise.resolve(loadableItems)
         : fetch(endPoints[newsType])
@@ -99,22 +101,17 @@ function loadNews(newsType, initialLoad) {
             dispatch(setNewsLoadableItems(items, newsType))
             return items
           })
-      itemsPromise.then(items => {
-        //making 31 reqs will be slow bc concurrent connection limit...
-        //https://www.npmjs.com/package/http-proxy maybe make a small server
-        const start = state[newsType].currentlyDisplaying
-//TODO potential bug here if totalItems is less than c.PER_PAGE
-//should take min of totalItems and per page maybe?
+
+      return itemsPromise.then(items => {
         return Promise.all(
           items
             .slice(start, start + c.PER_PAGE)
             .map(item => fetch(`${c.URL}item/${item}.json`))
         )
       })
-      //todo check all item responses for 404? or will above catch work?
       .then(items => Promise.all(items.map(item =>item.json())))
       .then(json => dispatch(loadNewsSuccess(json, newsType)))
-      .catch(err => dispatch(loadNewsError(res)))
+      .catch(err => console.log(err) && dispatch(loadNewsError(err)))
     }
   }
 }
