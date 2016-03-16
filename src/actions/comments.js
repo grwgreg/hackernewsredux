@@ -64,7 +64,7 @@ export function loadComments(id) {
       dispatch(setCommentsCurrentId(id))
     } else {
       dispatch(loadCommentsStart())
-      fetchComments([id]).then(([comments]) => {
+      return fetchComments([id]).then(([comments]) => {
         dispatch(loadCommentsSuccess(comments))
       })
     }
