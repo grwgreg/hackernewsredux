@@ -8,6 +8,8 @@ const NewsItem = React.createClass({
 
     const comments = <Link to={`/comments/${item.id}`}>{item.descendants + ' Comments'}</Link>
 
+    const by = <Link to={`/user/${item.by}`}>{item.by}</Link>
+
     return (
       <li>
         <div>Post {index+1}</div>
@@ -16,7 +18,7 @@ const NewsItem = React.createClass({
           <span><a href='#'>(TODO the sites base url)</a></span>
         </h2>
         <div>{item.score} points</div>
-        <div>by {item.by}</div>
+        <div>by {by}</div>
         <div>{item.time} time ago TODO</div>
         <div>{comments}</div>
       </li>

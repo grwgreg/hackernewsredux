@@ -8,8 +8,9 @@ import Ask from './containers/Ask.js';
 import Jobs from './containers/Jobs.js';
 import Newest from './containers/Newest.js';
 import Comments from './containers/Comments.js';
+import User from './containers/User.js';
 
-const routes = ( 
+const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={News}/>
     <Route path="/news" component={News}/>
@@ -18,8 +19,8 @@ const routes = (
     <Route path="/ask" component={Ask}/>
     <Route path="/jobs" component={Jobs}/>
     <Route path="/comments/:id" component={Comments}/>
+    <Route path="/user/:id" component={User}/>
   </Route>
 )
 
 export default routes
-

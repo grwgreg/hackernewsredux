@@ -1,15 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router'
 
 import c from '../constants'
 import { loadComments } from '../actions'
 
 function renderComments(comments) {
   const comment = comments.comment
-  const children = comments.childComments.map(renderComments) 
+  const children = comments.childComments.map(renderComments)
+  const by = <Link to={`/user/${comment.by}`}>{comment.by}</Link>
   return (
     <li key={comment.id}>
-      <div>{comment.by}</div>
+      <div>{by}</div>
       <div>{comment.time}</div>
       <div>{comment.text}</div>
       {children.length && <ul>{children}</ul>}

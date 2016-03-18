@@ -1,10 +1,10 @@
 function makeConstants(constants) {
   return constants.reduce((acc,el) => {
     acc[el] = el
-    return acc 
+    return acc
   },{})
 }
- 
+
 const actionTypes = makeConstants([
   'LOAD_NEWS_START',
   'LOAD_NEWS_SUCCESS',
@@ -14,7 +14,11 @@ const actionTypes = makeConstants([
   'LOAD_COMMENTS_START',
   'LOAD_COMMENTS_SUCCESS',
   'LOAD_COMMENTS_ERROR',
-  'SET_COMMENTS_CURRENT_ID'
+  'SET_COMMENTS_CURRENT_ID',
+  'LOAD_USERS_START',
+  'LOAD_USERS_SUCCESS',
+  'LOAD_USERS_ERROR',
+  'SET_USERS_CURRENT_ID'
 ])
 
 const newsTypes = makeConstants([
