@@ -9,6 +9,19 @@ import JobItem from './JobItem'
 const NewsList = React.createClass({
   componentDidMount () {
     this.props.onLoad()
+    //TODO https://github.com/oliviertassinari/react-event-listener
+    //try this instead? server rendering wouldnt have access to a window var...
+    //http://stackoverflow.com/questions/32896624/react-js-best-practice-regarding-listening-to-window-events-from-components
+    window.addEventListener('scroll', this.onScroll)
+  },
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.onScroll)
+  },
+  onScroll(e) {
+    const body = e.target.body
+    if (body.scrollTop > 0 && body.scrollTop >= body.offsetHeight - window.innerHeight - 200) {
+      this.fetchMore()
+    }
   },
   fetchMore() {
     if (this.props.list.currentlyDisplaying < this.props.list.loadableItems.length){
@@ -30,13 +43,11 @@ const NewsList = React.createClass({
     return (
       <div className={styles.why}>
         <h3 className={styles.hello}>News</h3>
-        <button onClick={this.fetchMore}>Load News</button>
-        <div className='loading'>{spinner}</div>
         <ul className='news-items'>{list}</ul>
+        <div className='loading'>{spinner}</div>
       </div>
     )
   }
 })
-
 
 export default NewsList
