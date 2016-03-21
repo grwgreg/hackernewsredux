@@ -3,18 +3,20 @@ const initialState = {
   loading: false,
   currentlyDisplaying: 0,
   loadableItems: [],
-  items: []
+  items: [],
+  flashMessage: ''
 }
 
 function newsReducer(newsType, state = initialState, action) {
-                               
+
   switch (action.type) {
 
     case c.LOAD_NEWS_START:
       if (action.payload.newsType !== newsType) return state
       return Object.assign({}, state, {
         loading: true,
-        currentlyDisplaying: action.payload.initialLoad ? 0 : state.currentlyDisplaying
+        currentlyDisplaying: action.payload.initialLoad ? 0 : state.currentlyDisplaying,
+        flashMessage: action.payload.initialLoad ? '' : state.flashMessage
       })
 
     case c.LOAD_NEWS_SUCCESS:
@@ -22,8 +24,9 @@ function newsReducer(newsType, state = initialState, action) {
       return Object.assign({}, state, {
         items: [...state.items, ...action.payload.data],
         loading: false,
-        currentlyDisplaying: state.currentlyDisplaying + action.payload.data.length
-      }) 
+        currentlyDisplaying: state.currentlyDisplaying + action.payload.data.length,
+        flashMessage: ''
+      })
 
     case c.LOAD_NEWS_INCREMENT_DISPLAYING:
       if (action.payload.newsType !== newsType) return state
@@ -37,11 +40,18 @@ function newsReducer(newsType, state = initialState, action) {
       return Object.assign({}, state, {
         loadableItems: action.payload.items
       })
-    
+
+    case c.LOAD_NEWS_ERROR:
+      if (action.payload.newsType !== newsType) return state
+      return Object.assign({}, state, {
+        loading: false,
+        flashMessage: 'Woops, an error occurred!'
+      })
+
     default:
       return state
   }
-} 
+}
 
 module.exports = {
   [c.TOP_STORIES]: newsReducer.bind(null, c.TOP_STORIES),

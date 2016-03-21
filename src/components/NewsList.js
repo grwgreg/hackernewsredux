@@ -30,9 +30,13 @@ const NewsList = React.createClass({
   },
   render() {
     const {onLoad, newsType} = this.props
-    const {loading, items, currentlyDisplaying} = this.props.list
+    const {loading, items, currentlyDisplaying, flashMessage} = this.props.list
 
     const spinner = loading ? 'LOADING' : ''
+
+    const msg = flashMessage.length
+      ? <div className="error-message">{flashMessage}</div>
+      : ''
 
     const list = items.slice(0,currentlyDisplaying).map((item,i) => {
       return newsType === c.JOB_STORIES
@@ -43,6 +47,7 @@ const NewsList = React.createClass({
     return (
       <div className={styles.why}>
         <h3 className={styles.hello}>News</h3>
+        {msg}
         <ul className='news-items'>{list}</ul>
         <div className='loading'>{spinner}</div>
       </div>

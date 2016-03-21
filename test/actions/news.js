@@ -194,4 +194,36 @@ describe('News Actions' , () => {
     expect(actions).to.deep.equal(expectedActions)
 
   });
+
+  it('should dispatch error action if ajax fails', function(done) {
+
+    nock('https://hacker-news.firebaseio.com')
+      .get('/v0/topstories.json')
+      .replyWithError('something awful happened')
+
+    const expectedActions = [
+      { type: c.LOAD_NEWS_START,
+        payload: { initialLoad: true, newsType: c.TOP_STORIES } },
+      { type: c.LOAD_NEWS_ERROR,
+        payload: { err: 'some big ajax error', newsType: c.TOP_STORIES } }
+    ]
+
+    const store = mockStore({
+      //initial store state
+      [c.TOP_STORIES]: {
+        loading: false,
+        currentlyDisplaying: 0,
+        loadableItems: [],
+        items: []
+      }
+    })
+    store.dispatch(loadTopStories())
+     .then(() => {
+       const actions = store.getActions()
+       expect(actions[0]).to.deep.equal(expectedActions[0])
+       expect(actions[1].type).to.equal(expectedActions[1].type)
+       done()
+     })
+
+  });
 });

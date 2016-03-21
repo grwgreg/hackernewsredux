@@ -30,6 +30,7 @@ function loadNewsSuccess(data, newsType) {
 }
 
 function loadNewsError(err, newsType) {
+  //console.log('loadNewsError', err)
   return {
     type: c.LOAD_NEWS_ERROR,
     payload: {
@@ -73,11 +74,10 @@ function loadNews(newsType, initialLoad) {
     state = getState()
     const itemCount = state[newsType].items.length
     const loadableItems = state[newsType].loadableItems
-    const totalItems = loadableItems.length
     const currentlyDisplaying = state[newsType].currentlyDisplaying
+    const totalItems = loadableItems.length
     const remaining = totalItems - currentlyDisplaying
     const incrementBy = Math.min(c.PER_PAGE, remaining)
-    const start = state[newsType].currentlyDisplaying
 
     //we check if the items being requested are already in the state
     //if they are we dispatch loadNewsIncrementDisplaying to increment the number of items displayed
@@ -89,7 +89,6 @@ function loadNews(newsType, initialLoad) {
       //on initial load we have no data to display, so skip
       dispatch(loadNewsIncrementDisplaying(incrementBy, newsType))
     } else {
-
       //this promise will resolve to array of item ids
       //if there currently are no loadableItems we fetch them and save in state
       //TODO cache invalidation via a timestamp or something
@@ -105,13 +104,14 @@ function loadNews(newsType, initialLoad) {
       return itemsPromise.then(items => {
         return Promise.all(
           items
-            .slice(start, start + c.PER_PAGE)
+            .slice(currentlyDisplaying, currentlyDisplaying + c.PER_PAGE)
             .map(item => fetch(`${c.URL}item/${item}.json`))
         )
       })
+      //.then(a => {if (Math.random() < .5) throw new Error('fuuoo'); return a})
       .then(items => Promise.all(items.map(item =>item.json())))
       .then(json => dispatch(loadNewsSuccess(json, newsType)))
-      .catch(err => console.log(err) && dispatch(loadNewsError(err)))
+      .catch(err => dispatch(loadNewsError(err, newsType)))
     }
   }
 }

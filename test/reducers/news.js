@@ -21,7 +21,8 @@ describe('News reducers', ()=> {
       loading: false,
       currentlyDisplaying: 0,
       loadableItems: [],
-      items: []
+      items: [],
+      flashMessage: ''
     }
 
     newsTypes.forEach(type => {
@@ -36,19 +37,22 @@ describe('News reducers', ()=> {
       loading: false,
       currentlyDisplaying: 3,
       loadableItems: [1,2,3,4,5,6],
-      items: [{id:1},{id:2},{id:3}]
+      items: [{id:1},{id:2},{id:3}],
+      flashMessage: ''
     }
     const newState = {
       loading: true,
       currentlyDisplaying: 3,
       loadableItems: [1,2,3,4,5,6],
-      items: [{id:1},{id:2},{id:3}]
+      items: [{id:1},{id:2},{id:3}],
+      flashMessage: ''
     }
     const newStateInitialLoad = {
       loading: true,
       currentlyDisplaying: 0,
       loadableItems: [1,2,3,4,5,6],
-      items: [{id:1},{id:2},{id:3}]
+      items: [{id:1},{id:2},{id:3}],
+      flashMessage: ''
     }
 
     newsTypes.forEach(type => {
@@ -79,13 +83,15 @@ describe('News reducers', ()=> {
       loading: true,
       currentlyDisplaying: 3,
       loadableItems: [1,2,3,4,5,6],
-      items: [{id:1},{id:2},{id:3}]
+      items: [{id:1},{id:2},{id:3}],
+      flashMessage: ''
     }
     const newState = {
       loading: false,
       currentlyDisplaying: 6,
       loadableItems: [1,2,3,4,5,6],
-      items: [{id:1},{id:2},{id:3},{id:4},{id:5},{id:6}]
+      items: [{id:1},{id:2},{id:3},{id:4},{id:5},{id:6}],
+      flashMessage: ''
     }
 
     newsTypes.forEach(type => {
@@ -108,13 +114,15 @@ describe('News reducers', ()=> {
       loading: true,
       currentlyDisplaying: 0,
       loadableItems: [1,2,3,4,5,6],
-      items: [{id:1},{id:2},{id:3}]
+      items: [{id:1},{id:2},{id:3}],
+      flashMessage: ''
     }
     const newState = {
       loading: false,
       currentlyDisplaying: 3,
       loadableItems: [1,2,3,4,5,6],
-      items: [{id:1},{id:2},{id:3}]
+      items: [{id:1},{id:2},{id:3}],
+      flashMessage: ''
     }
 
     newsTypes.forEach(type => {
@@ -137,13 +145,15 @@ describe('News reducers', ()=> {
       loading: true,
       currentlyDisplaying: 0,
       loadableItems: [],
-      items: []
+      items: [],
+      flashMessage: ''
     }
     const newState = {
       loading: true,
       currentlyDisplaying: 0,
       loadableItems: [1,2,3,4,5,6],
-      items: []
+      items: [],
+      flashMessage: ''
     }
 
     newsTypes.forEach(type => {
@@ -151,6 +161,37 @@ describe('News reducers', ()=> {
         type: c.SET_NEWS_LOADABLE_ITEMS,
         payload: {
           items: [1,2,3,4,5,6],
+          newsType: type
+        }
+      }))
+        .to.deep.equal(newState)
+
+    })
+
+  })
+
+  it('should handle LOAD_NEWS_ERROR', ()=> {
+
+    const state = {
+      loading: true,
+      currentlyDisplaying: 0,
+      loadableItems: [],
+      items: [],
+      flashMessage: ''
+    }
+    const newState = {
+      currentlyDisplaying: 0,
+      loadableItems: [],
+      items: [],
+      loading: false,
+      flashMessage: 'Woops, an error occurred!'
+    }
+
+    newsTypes.forEach(type => {
+      expect(reducers[type](state, {
+        type: c.LOAD_NEWS_ERROR,
+        payload: {
+          err: 'doesnt matter',
           newsType: type
         }
       }))
