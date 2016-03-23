@@ -8,7 +8,7 @@ const initialState = {
 function comments(state = initialState, action) {
 
   const comments = action.payload && action.payload.comments
-                               
+
   switch (action.type) {
 
     case c.LOAD_COMMENTS_START:
@@ -27,12 +27,17 @@ function comments(state = initialState, action) {
         items: Object.assign({}, state.items, {[comments.id]: comments}),
         currentId: comments.id,
         loading: false
-      }) 
+      })
+
+    case c.LOAD_COMMENTS_ERROR:
+      return Object.assign({}, state, {
+        loading: false
+      })
 
     default:
       return state
   }
-} 
+}
 
 module.exports = {
   comments

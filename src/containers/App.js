@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 
 import styles from '../styles/styles.scss'
+import Notify from './Notify'
 
 const App = React.createClass({
   render() {
@@ -15,6 +16,7 @@ const App = React.createClass({
           <li><Link to="/ask">ask</Link></li>
           <li><Link to="/jobs">jobs</Link></li>
         </ul>
+        <Notify />
         {this.props.children}
       </div>
     )

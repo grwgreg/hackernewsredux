@@ -18,7 +18,9 @@ const actionTypes = makeConstants([
   'LOAD_USERS_START',
   'LOAD_USERS_SUCCESS',
   'LOAD_USERS_ERROR',
-  'SET_USERS_CURRENT_ID'
+  'SET_USERS_CURRENT_ID',
+  'NOTIFY',
+  'NOTIFY_HIDE'
 ])
 
 const newsTypes = makeConstants([

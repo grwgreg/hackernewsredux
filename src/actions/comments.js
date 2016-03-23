@@ -1,5 +1,6 @@
 import c from '../constants'
 import fetch from 'isomorphic-fetch'
+import {notify} from './notify'
 
 const endPoint = c.URL + 'item'
 
@@ -20,11 +21,14 @@ function loadCommentsSuccess(comments) {
 }
 
 function loadCommentsError(err) {
-  return {
-    type: c.LOAD_COMMENTS_ERROR,
-    payload: {
-      err
-    }
+  return (dispatch) => {
+    dispatch(notify('Woops, an error occurred'))
+    dispatch({
+      type: c.LOAD_COMMENTS_ERROR,
+      payload: {
+        err
+      }
+    })
   }
 }
 
@@ -44,7 +48,6 @@ function fetchComments(commentIds) {
       .then(res=>res.json())
       .then(com => {
         comment = com
-        //if (!comment.kids) return Promise.resolve([])//base case
         if (!comment.kids) return []//base case
         return fetchComments(comment.kids)
       })
@@ -53,7 +56,6 @@ function fetchComments(commentIds) {
         comment,
         childComments
       }))
-//TODO some error handling would be good
   }))
 }
 
@@ -64,9 +66,9 @@ export function loadComments(id) {
       dispatch(setCommentsCurrentId(id))
     } else {
       dispatch(loadCommentsStart())
-      return fetchComments([id]).then(([comments]) => {
-        dispatch(loadCommentsSuccess(comments))
-      })
+      return fetchComments([id])
+        .then(([comments]) => dispatch(loadCommentsSuccess(comments)))
+        .catch(err => dispatch(loadCommentsError(err)))
     }
   }
 }
