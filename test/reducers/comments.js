@@ -87,4 +87,27 @@ describe('Comments reducers', ()=> {
       .to.deep.equal(newState)
 
   })
+
+  it('should handle LOAD_COMMENTS_ERROR', ()=> {
+
+    const state = {
+      loading: true,
+      items: {44: {id:44}},
+      currentId: 44
+    }
+    const newState = {
+      loading: false,
+      items: {44: {id:44}},
+      currentId: 44
+    }
+
+    expect(reducer(state, {
+      type: c.LOAD_COMMENTS_ERROR,
+      payload: {
+        err: {}
+      }
+     }))
+      .to.deep.equal(newState)
+
+  })
 })

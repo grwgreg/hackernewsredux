@@ -1,6 +1,8 @@
 import c from '../constants'
 import fetch from 'isomorphic-fetch'
 
+import { notify } from './notify'
+
 const endPoints = {
   [c.TOP_STORIES]: c.URL + 'topstories.json',
   [c.SHOW_STORIES]: c.URL + 'showstories.json',
@@ -30,13 +32,15 @@ function loadNewsSuccess(data, newsType) {
 }
 
 function loadNewsError(err, newsType) {
-  //console.log('loadNewsError', err)
-  return {
-    type: c.LOAD_NEWS_ERROR,
-    payload: {
-      err,
-      newsType
-    }
+  return dispatch => {
+    dispatch(notify('Woops, an error occurred'))
+    dispatch({
+      type: c.LOAD_NEWS_ERROR,
+      payload: {
+        err,
+        newsType
+      }
+    })
   }
 }
 

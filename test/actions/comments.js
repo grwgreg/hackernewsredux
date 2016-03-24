@@ -73,7 +73,7 @@ describe('Comments Actions' , () => {
         currentID: 98,
         items: {
           98: {}
-        } 
+        }
       }
     })
 
@@ -101,13 +101,47 @@ describe('Comments Actions' , () => {
         currentID: 66,
         items: {
           98: {}
-        } 
+        }
       }
     })
 
     store.dispatch(loadComments(98))
     const actions = store.getActions()
     expect(actions).to.deep.equal(expectedActions)
+
+  });
+
+  it('should dispatch error and notify actions if ajax fails', function(done) {
+
+    const scope = nock('https://hacker-news.firebaseio.com')
+
+      .get('/v0/item/64.json')
+      .replyWithError('something awful happened')
+
+    const expectedActions = [
+      { type: c.LOAD_COMMENTS_START, payload: {} },
+      { type: c.NOTIFY, payload: { msg: 'Woops, an error occurred' } },
+      { type: c.LOAD_COMMENTS_ERROR, payload: { err: 'some error' } }
+    ]
+
+    const store = mockStore({
+      comments: {
+        loading: false,
+        currentID: 98,
+        items: {
+          98: {}
+        }
+      }
+    })
+
+   store.dispatch(loadComments(64))
+    .then(() => {
+      const actions = store.getActions()
+      expect(actions[0]).to.deep.equal(expectedActions[0])
+      expect(actions[1]).to.deep.equal(expectedActions[1])
+      expect(actions[2].type).to.equal(expectedActions[2].type)
+      done()
+    })
 
   });
 });

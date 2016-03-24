@@ -3,8 +3,7 @@ const initialState = {
   loading: false,
   currentlyDisplaying: 0,
   loadableItems: [],
-  items: [],
-  flashMessage: ''
+  items: []
 }
 
 function newsReducer(newsType, state = initialState, action) {
@@ -15,8 +14,7 @@ function newsReducer(newsType, state = initialState, action) {
       if (action.payload.newsType !== newsType) return state
       return Object.assign({}, state, {
         loading: true,
-        currentlyDisplaying: action.payload.initialLoad ? 0 : state.currentlyDisplaying,
-        flashMessage: action.payload.initialLoad ? '' : state.flashMessage
+        currentlyDisplaying: action.payload.initialLoad ? 0 : state.currentlyDisplaying
       })
 
     case c.LOAD_NEWS_SUCCESS:
@@ -24,8 +22,7 @@ function newsReducer(newsType, state = initialState, action) {
       return Object.assign({}, state, {
         items: [...state.items, ...action.payload.data],
         loading: false,
-        currentlyDisplaying: state.currentlyDisplaying + action.payload.data.length,
-        flashMessage: ''
+        currentlyDisplaying: state.currentlyDisplaying + action.payload.data.length
       })
 
     case c.LOAD_NEWS_INCREMENT_DISPLAYING:
@@ -44,8 +41,7 @@ function newsReducer(newsType, state = initialState, action) {
     case c.LOAD_NEWS_ERROR:
       if (action.payload.newsType !== newsType) return state
       return Object.assign({}, state, {
-        loading: false,
-        flashMessage: 'Woops, an error occurred!'
+        loading: false
       })
 
     default:

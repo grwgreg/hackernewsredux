@@ -195,7 +195,7 @@ describe('News Actions' , () => {
 
   });
 
-  it('should dispatch error action if ajax fails', function(done) {
+  it('should dispatch error and notify actions if ajax fails', function(done) {
 
     nock('https://hacker-news.firebaseio.com')
       .get('/v0/topstories.json')
@@ -204,6 +204,8 @@ describe('News Actions' , () => {
     const expectedActions = [
       { type: c.LOAD_NEWS_START,
         payload: { initialLoad: true, newsType: c.TOP_STORIES } },
+      { type: c.NOTIFY,
+        payload: { msg: 'Woops, an error occurred' } },
       { type: c.LOAD_NEWS_ERROR,
         payload: { err: 'some big ajax error', newsType: c.TOP_STORIES } }
     ]

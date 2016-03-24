@@ -1,6 +1,6 @@
 import c from '../constants'
 import fetch from 'isomorphic-fetch'
-import {notify} from './notify'
+import { notify } from './notify'
 
 const endPoint = c.URL + 'item'
 
@@ -65,6 +65,7 @@ export function loadComments(id) {
     if (state.comments.items[id]) {
       dispatch(setCommentsCurrentId(id))
     } else {
+      console.log('wat', id)
       dispatch(loadCommentsStart())
       return fetchComments([id])
         .then(([comments]) => dispatch(loadCommentsSuccess(comments)))
