@@ -1,5 +1,6 @@
 import c from '../constants'
 import fetch from 'isomorphic-fetch'
+import { notify } from './notify'
 
 const endPoint = c.URL + 'user'
 
@@ -29,16 +30,19 @@ function loadUserSuccess(user) {
 }
 
 function loadUserError(err) {
-  return {
-    type: c.LOAD_USERS_ERROR,
-    payload: {
-      err
-    }
+  return dispatch => {
+    dispatch(notify('Woops, an error occurred'))
+    dispatch({
+      type: c.LOAD_USERS_ERROR,
+      payload: {
+        err
+      }
+    })
   }
 }
 
 function fetchUser(id) {
-  return fetch(`${endPoint}/${id}.json` )
+  return fetch(`${endPoint}/${id}.json`)
     .then(res=>res.json())
 }
 
@@ -54,7 +58,7 @@ export function loadUser(id) {
           dispatch(loadUserSuccess(user))
         })
         .catch(err => {
-          dispatch(loadUserError(user))
+          dispatch(loadUserError(err))
         })
     }
   }

@@ -87,4 +87,24 @@ describe('Users reducer', ()=> {
       .to.deep.equal(newState)
 
   })
+
+  it('should handle LOAD_USERS_ERROR', ()=> {
+
+    const state = {
+      loading: true,
+      items: {44: {id:44}},
+      currentId: 44
+    }
+    const newState = {
+      loading: false,
+      items: {44: {id:44}},
+      currentId: 44
+    }
+
+    expect(reducer(state, {
+      type: c.LOAD_USERS_ERROR
+     }))
+      .to.deep.equal(newState)
+
+  })
 })

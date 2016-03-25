@@ -76,4 +76,41 @@ describe('Comments Actions' , () => {
 
   });
 
+  it('should dispatch error and notify actions if ajax fails', function(done) {
+
+    const scope = nock('https://hacker-news.firebaseio.com')
+
+      .get('/v0/user/some_userx.json')
+      .replyWithError('something awful happened')
+
+
+    const expectedActions = [
+  { type: 'LOAD_USERS_START', payload: {} },
+  { type: 'NOTIFY', payload: { msg: 'Woops, an error occurred' } },
+  { type: 'LOAD_USERS_ERROR', payload: { err: 'error here' } } ]
+
+
+
+    const store = mockStore({
+      users: {
+        loading: false,
+        currentID: 'another_user',
+        items: {
+          another_user: {}
+        }
+      }
+    })
+
+   store.dispatch(loadUser('some_userx'))
+    .then(() => {
+      const actions = store.getActions()
+      expect(actions[0]).to.deep.equal(expectedActions[0])
+      expect(actions[1]).to.deep.equal(expectedActions[1])
+      expect(actions[2].type).to.equal(expectedActions[2].type)
+
+      done()
+    })
+
+  });
+
 });

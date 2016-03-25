@@ -3,7 +3,8 @@ const initialState = {
   loading: false,
   currentlyDisplaying: 0,
   loadableItems: [],
-  items: []
+  items: [],
+  timeStamp: new Date(0)
 }
 
 function newsReducer(newsType, state = initialState, action) {
@@ -35,7 +36,9 @@ function newsReducer(newsType, state = initialState, action) {
     case c.SET_NEWS_LOADABLE_ITEMS:
       if (action.payload.newsType !== newsType) return state
       return Object.assign({}, state, {
-        loadableItems: action.payload.items
+        loadableItems: action.payload.items,
+        timeStamp: action.payload.timeStamp,
+        items: []
       })
 
     case c.LOAD_NEWS_ERROR:

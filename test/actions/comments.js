@@ -45,7 +45,6 @@ describe('Comments Actions' , () => {
 
     //the .commment ie {id:55} objects here are the full ajax response for a comment, i've ommited the date/text attrs
     //if that comment has children, it will have a kids attribute with array of id's of kids
-    //childComments is an array of the full ajax responses for each comment
     const recursiveComments = {
       id: 44,
       comment: { id: 44, kids: [ 55, 66, 77 ] },

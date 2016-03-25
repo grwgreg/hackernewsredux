@@ -29,6 +29,11 @@ function users(state = initialState, action) {
         loading: false
       })
 
+    case c.LOAD_USERS_ERROR:
+      return Object.assign({}, state, {
+        loading: false
+      })
+
     default:
       return state
   }

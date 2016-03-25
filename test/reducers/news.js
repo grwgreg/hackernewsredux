@@ -21,7 +21,8 @@ describe('News reducers', ()=> {
       loading: false,
       currentlyDisplaying: 0,
       loadableItems: [],
-      items: []
+      items: [],
+      timeStamp: new Date(0)
     }
 
     newsTypes.forEach(type => {
@@ -131,30 +132,33 @@ describe('News reducers', ()=> {
 
   })
 
-  it('should handle LOAD_NEWS_INCREMENT_DISPLAYING', ()=> {
+  it('should handle SET_NEWS_LOADABLE_ITEMS', ()=> {
 
     const state = {
       loading: true,
       currentlyDisplaying: 0,
       loadableItems: [],
-      items: []
+      items: [],
+      timeStamp: new Date(0)
     }
     const newState = {
       loading: true,
       currentlyDisplaying: 0,
       loadableItems: [1,2,3,4,5,6],
-      items: []
+      items: [],
+      timeStamp: new Date(1234)
     }
 
     newsTypes.forEach(type => {
-      expect(reducers[type](state, {
+      const updated = reducers[type](state, {
         type: c.SET_NEWS_LOADABLE_ITEMS,
         payload: {
           items: [1,2,3,4,5,6],
-          newsType: type
+          newsType: type,
+          timeStamp: new Date(1234)
         }
-      }))
-        .to.deep.equal(newState)
+      })
+      expect(updated).to.deep.equal(newState)
 
     })
 

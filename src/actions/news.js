@@ -59,6 +59,7 @@ function setNewsLoadableItems(items, newsType) {
     type: c.SET_NEWS_LOADABLE_ITEMS,
     payload: {
       items,
+      timeStamp: new Date(),
       newsType
     }
   }
@@ -78,10 +79,14 @@ function loadNews(newsType, initialLoad) {
     state = getState()
     const itemCount = state[newsType].items.length
     const loadableItems = state[newsType].loadableItems
+    const timeStamp = state[newsType].timeStamp
     const currentlyDisplaying = state[newsType].currentlyDisplaying
     const totalItems = loadableItems.length
     const remaining = totalItems - currentlyDisplaying
     const incrementBy = Math.min(c.PER_PAGE, remaining)
+    const useCachedItems =
+      totalItems
+      && new Date().getTime() - timeStamp.getTime() < 1000 * 60 * 5//5 minutes
 
     //we check if the items being requested are already in the state
     //if they are we dispatch loadNewsIncrementDisplaying to increment the number of items displayed
@@ -89,14 +94,14 @@ function loadNews(newsType, initialLoad) {
     if (totalItems && currentlyDisplaying === totalItems) {
       //on initial load both totalItems and currentlyDisplaying are 0, so skip
       throw new Error('There are no more items to display. This action should not have been called.')
-    } else if (totalItems && currentlyDisplaying + incrementBy <= itemCount) {
+    } else if (useCachedItems && currentlyDisplaying + incrementBy <= itemCount) {
       //on initial load we have no data to display, so skip
       dispatch(loadNewsIncrementDisplaying(incrementBy, newsType))
     } else {
       //this promise will resolve to array of item ids
       //if there currently are no loadableItems we fetch them and save in state
-      //TODO cache invalidation via a timestamp or something
-      const itemsPromise = loadableItems.length
+      //we never invalidate cache when paginating
+      const itemsPromise = (useCachedItems || !initialLoad)
         ? Promise.resolve(loadableItems)
         : fetch(endPoints[newsType])
           .then(res=> res.json())
