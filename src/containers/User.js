@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import c from '../constants'
 import { loadUser } from '../actions'
 
-//TODO this needs proptypes thing (does it really tho? lol)
 const User = React.createClass({
   componentDidMount () {
     this.props.loadUser(this.props.params.id)

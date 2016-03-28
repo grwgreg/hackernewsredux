@@ -10,17 +10,16 @@ function renderComments(comments) {
   const children = comments.childComments.map(renderComments)
   const by = <Link to={`/user/${comment.by}`}>{comment.by}</Link>
   return (
-    <li key={comment.id}>
+    <li key={comment.id} data-id={comment.id}>
       <div>{by}</div>
       <div>{comment.time}</div>
-      <div>{comment.text}</div>
+      <div dangerouslySetInnerHTML={{__html: comment.text}}></div>
       {children.length && <ul>{children}</ul>}
     </li>
   )
 }
 
-//TODO this needs proptypes thing (does it really tho? lol)
-const Comments = React.createClass({
+export const Comments = React.createClass({
   componentDidMount() {
     this.props.loadComments(this.props.params.id);
   },

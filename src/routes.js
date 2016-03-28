@@ -1,14 +1,14 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import App from './containers/App.js';
-import News from './containers/News.js';
-import Show from './containers/Show.js';
-import Ask from './containers/Ask.js';
-import Jobs from './containers/Jobs.js';
-import Newest from './containers/Newest.js';
-import Comments from './containers/Comments.js';
-import User from './containers/User.js';
+import App from './containers/App';
+import News from './containers/News';
+import Show from './containers/Show';
+import Ask from './containers/Ask';
+import Jobs from './containers/Jobs';
+import Newest from './containers/Newest';
+import Comments from './containers/Comments';
+import User from './containers/User';
 
 const routes = (
   <Route path="/" component={App}>

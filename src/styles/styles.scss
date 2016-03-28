@@ -1,10 +1,31 @@
-body {
-  background: pink;
+@import './colors';
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.green {
-  background: green;
-  > li:first-child{
-    background: orange;
+.clearfix:before,
+.clearfix:after {
+  content: '';
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+}
+
+a {
+  text-decoration: none;
+  color: $purple;
+  &:hover {
+    //text-decoration: underline;
+    color: $green;
   }
 }

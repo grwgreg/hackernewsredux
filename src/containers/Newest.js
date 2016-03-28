@@ -3,15 +3,14 @@ import { connect } from 'react-redux'
 
 import c from '../constants'
 import { loadNewStories } from '../actions'
-import NewsList from '../components/NewsList.js'
+import NewsList from '../components/NewsList'
 
-//TODO this needs proptypes thing (does it really tho? lol)
 const Newest = React.createClass({
   render() {
     return (
       <NewsList
         onLoad={this.props.loadNewStories}
-        list={this.props.newStories}  
+        list={this.props.newStories}
         newsType={c.NEW_STORIES}
       />
     )

@@ -12,7 +12,7 @@ import c from '../../src/constants'
 const middlewares = [ thunk ]
 const mockStore = configureMockStore(middlewares)
 
-describe('Comments Actions' , () => {
+describe('Users Actions' , () => {
 
   afterEach(() => {
     nock.cleanAll()

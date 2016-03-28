@@ -6,7 +6,7 @@
   "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.js'",
+    "test": "mocha --compilers js:babel-core/register --require babel-register --require ignore-styles --require ./test/test_helper.js 'test/**/*.js'",
     "test:watch": "npm run test -- --watch"
   },
   "author": "",
@@ -19,6 +19,7 @@
     "chai": "^3.5.0",
     "chai-jquery": "^2.0.0",
     "css-loader": "^0.21.1",
+    "ignore-styles": "^5.0.1",
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
@@ -35,6 +36,7 @@
     "babel-preset-stage-1": "^6.1.18",
     "isomorphic-fetch": "^2.2.0",
     "lodash": "^3.10.1",
+    "moment": "^2.12.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",

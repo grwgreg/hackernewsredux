@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-//TODO this needs proptypes thing (does it really tho? lol)
 const JobItem = React.createClass({
   render() {
     const {item, index} = this.props
@@ -21,6 +20,11 @@ const JobItem = React.createClass({
     )
   }
 })
+
+JobItem.propTypes = {
+  item: React.PropTypes.object.isRequired,
+  index: React.PropTypes.number.isRequired
+}
 
 
 export default JobItem

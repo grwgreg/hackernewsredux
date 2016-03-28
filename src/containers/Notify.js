@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import c from '../constants'
 import { notify, hideNotify } from '../actions'
 
-//TODO this needs proptypes thing (does it really tho? lol)
 const Notify = React.createClass({
   render() {
     const {notify, hideNotify, msg, visible} = this.props

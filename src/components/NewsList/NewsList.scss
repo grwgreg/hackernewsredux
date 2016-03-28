@@ -1,0 +1,14 @@
+@import '../../styles/colors';
+
+.list {
+  padding: 20px;
+  margin: 0;
+  background: $beige;
+  li {
+    list-style: none;
+    border-bottom: 1px solid $grey;
+    &:last-child {
+      border: none;
+    }
+  }
+}

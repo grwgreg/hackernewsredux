@@ -1,11 +1,10 @@
 import React from 'react'
 
-import c from '../constants.js'
-import styles from '../styles/news.scss'
-import NewsItem from './NewsItem'
-import JobItem from './JobItem'
+import c from '../../constants.js'
+import styles from './NewsList.scss'
+import NewsItem from '../NewsItem'
+import JobItem from '../JobItem'
 
-//TODO this needs proptypes thing (does it really tho? lol)
 const NewsList = React.createClass({
   componentDidMount () {
     this.props.onLoad()
@@ -41,13 +40,22 @@ const NewsList = React.createClass({
     })
 
     return (
-      <div className={styles.why}>
-        <h3 className={styles.hello}>News</h3>
-        <ul className='news-items'>{list}</ul>
+      <div className='container'>
+        <ul className={styles.list}>{list}</ul>
         <div className='loading'>{spinner}</div>
       </div>
     )
   }
 })
+
+NewsList.propTypes = {
+  onLoad: React.PropTypes.func.isRequired,
+  newsType: React.PropTypes.string.isRequired,
+  list: React.PropTypes.shape({
+    loading: React.PropTypes.bool.isRequired,
+    items: React.PropTypes.array.isRequired,
+    currentlyDisplaying: React.PropTypes.number.isRequired
+  }).isRequired
+}
 
 export default NewsList

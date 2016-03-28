@@ -65,7 +65,6 @@ export function loadComments(id) {
     if (state.comments.items[id]) {
       dispatch(setCommentsCurrentId(id))
     } else {
-      console.log('wat', id)
       dispatch(loadCommentsStart())
       return fetchComments([id])
         .then(([comments]) => dispatch(loadCommentsSuccess(comments)))
