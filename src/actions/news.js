@@ -117,7 +117,7 @@ function loadNews(newsType, initialLoad) {
             .map(item => fetch(`${c.URL}item/${item}.json`))
         )
       })
-      //.then(a => {if (Math.random() < .5) throw new Error('fuuoo'); return a})
+//      .then(a => {if (Math.random() < .5) throw new Error('fuuoo'); return a})
       .then(items => Promise.all(items.map(item =>item.json())))
       .then(json => dispatch(loadNewsSuccess(json, newsType)))
       .catch(err => dispatch(loadNewsError(err, newsType)))

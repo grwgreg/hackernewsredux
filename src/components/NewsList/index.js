@@ -9,7 +9,6 @@ const NewsList = React.createClass({
   componentDidMount () {
     this.props.onLoad()
     //TODO https://github.com/oliviertassinari/react-event-listener
-    //try this instead? server rendering wouldnt have access to a window var...
     //http://stackoverflow.com/questions/32896624/react-js-best-practice-regarding-listening-to-window-events-from-components
     window.addEventListener('scroll', this.onScroll)
   },
@@ -29,9 +28,10 @@ const NewsList = React.createClass({
   },
   render() {
     const {onLoad, newsType} = this.props
-    const {loading, items, currentlyDisplaying} = this.props.list
+    const {loading, items, loadableItems, currentlyDisplaying} = this.props.list
 
     const spinner = loading ? 'LOADING' : ''
+    const more = currentlyDisplaying < loadableItems.length && loadableItems.length
 
     const list = items.slice(0,currentlyDisplaying).map((item,i) => {
       return newsType === c.JOB_STORIES
@@ -40,9 +40,10 @@ const NewsList = React.createClass({
     })
 
     return (
-      <div className='container'>
+      <div>
         <ul className={styles.list}>{list}</ul>
         <div className='loading'>{spinner}</div>
+        <div>{!more && 'No more items to display'}</div>
       </div>
     )
   }

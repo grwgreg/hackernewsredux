@@ -27,7 +27,7 @@ const NewsItem = React.createClass({
           <div className={styles.meta}>
             <div>{item.score} points by {by} |</div>
             <div>{time} |</div>
-            <div>{comments}</div>
+            <div>{item.descendants ? comments : ''}</div>
           </div>
         </div>
       </li>

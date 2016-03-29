@@ -1,0 +1,25 @@
+@import "../../styles/colors";
+
+.notify {
+  background: $orange;
+  padding: 20px;
+  margin: 0 0 20px;
+  border-radius: 3px;
+  color: white;
+  display: none;
+  &[data-visible=true] {
+    display: flex;
+  }
+}
+
+.close {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: bold;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.msg {
+  line-height: 30px;
+}

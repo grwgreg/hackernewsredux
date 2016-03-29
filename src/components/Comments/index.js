@@ -24,7 +24,7 @@ export default React.createClass({
     const {items, currentId} = this.props.comments
     const comments = items[currentId]
     return (
-      <div className='container'>
+      <div>
         <ul className={styles.comments}>
           {comments && comments.childComments.map(renderComments.bind(null, true))}
         </ul>
