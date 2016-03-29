@@ -1,0 +1,38 @@
+@import "../../styles/colors";
+
+.comments {
+  background: $beige;
+  padding: 10px 20px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  ul {
+    padding: 0 0 0 30px;
+  }
+  li {
+    list-style: none;
+    padding: 10px;
+    background: $beige;
+    border: 1px solid #eaeaea;
+    margin-bottom: 10px;
+  border-radius: 2px;
+    &[data-zebra=false] {
+      background: white;
+    }
+    > ul {
+      margin-top: 10px;
+    }
+  }
+  > li {
+    border: none;
+  }
+}
+
+.time {
+font-size: 14px;
+margin-left: 10px;
+color: $grey;
+}
+
+.meta {
+margin-bottom: 8px;
+}

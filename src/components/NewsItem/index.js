@@ -12,7 +12,7 @@ const NewsItem = React.createClass({
 
     const by = <Link to={`/user/${item.by}`}>{item.by}</Link>
 
-    const host = window.URL ? new window.URL(item.url) : {}
+    const host = window.URL && item.url && new window.URL(item.url)
 
     const time = moment.unix(+item.time).fromNow()
 
@@ -22,7 +22,7 @@ const NewsItem = React.createClass({
         <div>
           <h2>
             <a href={item.url} target="_blank">{item.title}</a>
-            <span><a href={host.origin}>{'(' + host.host + ')'}</a></span>
+            {host && <span><a href={host.origin}>{'(' + host.host + ')'}</a></span>}
           </h2>
           <div className={styles.meta}>
             <div>{item.score} points by {by} |</div>

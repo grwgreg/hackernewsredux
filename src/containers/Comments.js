@@ -4,20 +4,8 @@ import { Link } from 'react-router'
 
 import c from '../constants'
 import { loadComments } from '../actions'
+import RecursiveComments from '../components/Comments'
 
-function renderComments(comments) {
-  const comment = comments.comment
-  const children = comments.childComments.map(renderComments)
-  const by = <Link to={`/user/${comment.by}`}>{comment.by}</Link>
-  return (
-    <li key={comment.id} data-id={comment.id}>
-      <div>{by}</div>
-      <div>{comment.time}</div>
-      <div dangerouslySetInnerHTML={{__html: comment.text}}></div>
-      {children.length && <ul>{children}</ul>}
-    </li>
-  )
-}
 
 export const Comments = React.createClass({
   componentDidMount() {
@@ -29,14 +17,11 @@ export const Comments = React.createClass({
     }
   },
   render() {
-    const {items, currentId, loading} = this.props.comments
-    const comments = items[currentId]
+    const {loading} = this.props.comments
     return (
       <div>
         {loading && <div>LOADING</div>}
-        <ul>
-          {comments && comments.childComments.map(renderComments)}
-        </ul>
+        {!loading && <RecursiveComments comments={this.props.comments} />}
       </div>
     )
   }
