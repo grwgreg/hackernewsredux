@@ -41,9 +41,9 @@ const NewsList = React.createClass({
 
     return (
       <div>
-        <ul className={styles.list}>{list}</ul>
+        {currentlyDisplaying ? <ul className={styles.list}>{list}</ul> : ''}
         <div className='loading'>{spinner}</div>
-        <div>{!more && 'No more items to display'}</div>
+        <div>{!more && !loading && 'No more items to display'}</div>
       </div>
     )
   }

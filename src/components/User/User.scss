@@ -1,0 +1,12 @@
+@import "../../styles/colors";
+
+.user {
+  background: $beige;
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+  label {
+    min-width: 75px;
+    display: inline-block;
+  }
+}

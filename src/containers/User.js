@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import c from '../constants'
 import { loadUser } from '../actions'
+import UserView from '../components/User'
 
 const User = React.createClass({
   componentDidMount () {
@@ -10,28 +11,20 @@ const User = React.createClass({
   },
   render() {
   const user = this.props.user || {}
+  const loading = this.props.loading
     return (
-<div>
-  <div>
-    user: {user.id}
-  </div>
-  <div>
-    created: {user.created}
-  </div>
-  <div>
-    karma: {user.karma}
-  </div>
-  <div>
-    about: {user.about}
-  </div>
-</div>
+      <div>
+        {loading && 'LOADING'}
+        {!loading && <UserView user={user} />}
+      </div>
     )
   }
 })
 
 function mapStateToProps(state) {
   return {
-    user: state.users.items[state.users.currentId]
+    user: state.users.items[state.users.currentId],
+    loading: state.users.loading
   }
 }
 
