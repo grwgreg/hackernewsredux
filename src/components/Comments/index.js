@@ -8,7 +8,7 @@ import styles from './Comments.scss'
 function renderComments(zebra, comments) {
   const comment = comments.comment
   const children = comments.childComments.map(renderComments.bind(null, !zebra))
-  const by = <Link to={`/user/${comment.by}`}>{comment.by}</Link>
+  const by = <Link to={`${c.ROOT_PATH}/user/${comment.by}`}>{comment.by}</Link>
   const time = moment.unix(+comment.time).fromNow()
   return (
     <li key={comment.id} data-id={comment.id} data-zebra={zebra}>

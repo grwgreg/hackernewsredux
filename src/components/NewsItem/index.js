@@ -3,14 +3,15 @@ import { Link } from 'react-router'
 import moment from 'moment'
 
 import styles from './NewsItem.scss'
+import c from '../../constants'
 
 const NewsItem = React.createClass({
   render() {
     const {item, index} = this.props
 
-    const comments = <Link to={`/comments/${item.id}`}>{item.descendants + ' Comments'}</Link>
+    const comments = <Link to={`${c.ROOT_PATH}/comments/${item.id}`}>{item.descendants + ' Comments'}</Link>
 
-    const by = <Link to={`/user/${item.by}`}>{item.by}</Link>
+    const by = <Link to={`${c.ROOT_PATH}/user/${item.by}`}>{item.by}</Link>
 
     const host = window.URL && item.url && new window.URL(item.url)
 

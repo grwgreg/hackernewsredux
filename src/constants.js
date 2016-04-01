@@ -33,5 +33,6 @@ const newsTypes = makeConstants([
 
 export default Object.assign({}, newsTypes, actionTypes, {
   PER_PAGE: 30,
-  URL: 'https://hacker-news.firebaseio.com/v0/'
+  URL: 'https://hacker-news.firebaseio.com/v0/',
+  ROOT_PATH: '/gregblog/hackernews'
 })

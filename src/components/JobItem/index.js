@@ -3,12 +3,13 @@ import { Link } from 'react-router'
 import moment from 'moment'
 
 import styles from '../NewsItem/NewsItem.scss'
+import c from '../../constants'
 
 const JobItem = React.createClass({
   render() {
     const {item, index} = this.props
 
-    const by = <Link to={`/user/${item.by}`}>{item.by}</Link>
+    const by = <Link to={`${c.ROOT_PATH}/user/${item.by}`}>{item.by}</Link>
 
     const host = window.URL && item.url ? new window.URL(item.url) : {}
 

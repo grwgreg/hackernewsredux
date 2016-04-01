@@ -7,6 +7,7 @@ require('!style-loader!css-loader!sass-loader!../../styles/styles.scss')
 import styles from './App.scss'
 import Notify from '../../components/Notify'
 import { notify, hideNotify } from '../../actions'
+import c from '../../constants'
 
 const App = React.createClass({
   render() {
@@ -16,16 +17,16 @@ const App = React.createClass({
         <header className={styles.header}>
           <div className="container clearfix">
             <div className={styles.logo}>
-              <Link to="/">
+              <Link to={c.ROOT_PATH}>
                 <i className="fa fa-hacker-news" aria-hidden="true"></i> Hacker News
               </Link>
             </div>
             <ul className={styles.nav}>
-              <li><IndexLink to="/" activeClassName={styles.active} >news</IndexLink></li>
-              <li><Link to="/newest" activeClassName={styles.active} >newest</Link></li>
-              <li><Link to="/show" activeClassName={styles.active} >show</Link></li>
-              <li><Link to="/ask" activeClassName={styles.active} >ask</Link></li>
-              <li><Link to="/jobs" activeClassName={styles.active} >jobs</Link></li>
+              <li><IndexLink to={c.ROOT_PATH} activeClassName={styles.active} >news</IndexLink></li>
+              <li><Link to={c.ROOT_PATH+"/newest"} activeClassName={styles.active} >newest</Link></li>
+              <li><Link to={c.ROOT_PATH+"/show"} activeClassName={styles.active} >show</Link></li>
+              <li><Link to={c.ROOT_PATH+"/ask"} activeClassName={styles.active} >ask</Link></li>
+              <li><Link to={c.ROOT_PATH+"/jobs"} activeClassName={styles.active} >jobs</Link></li>
             </ul>
           </div>
         </header>

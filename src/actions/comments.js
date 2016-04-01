@@ -12,6 +12,7 @@ function loadCommentsStart() {
 }
 
 function loadCommentsSuccess(comments) {
+console.log(comments)
   return {
     type: c.LOAD_COMMENTS_SUCCESS,
     payload: {
