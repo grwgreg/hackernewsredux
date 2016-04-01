@@ -1,5 +1,4 @@
 import { renderComponent , expect } from '../test_helper';
-//import App from '../../src/containers/App';
 import NewsItem from '../../src/components/NewsItem';
 
 describe('NewsItem' , () => {
@@ -12,14 +11,15 @@ describe('NewsItem' , () => {
         id: 8,
         by: 'someone',
         time: 1234,
-        url: 'https://example.com/what.html'
+        url: 'https://example.com/what.html',
+        title: 'The Title'
       }
     }
     component = renderComponent(NewsItem, props);
   });
 
-  it('renders something', () => {
-    //console.log(component)
-    expect(component).to.exist;
+  it('should render the data passed in as props', () => {
+    expect(component.find('h2 > a').attr('href')).to.equal('https://example.com/what.html')
+    expect(component.find('h2 > a')).to.have.text('The Title')
   });
 });

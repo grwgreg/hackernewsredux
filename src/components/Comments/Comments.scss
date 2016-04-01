@@ -14,7 +14,7 @@
     background: $beige;
     border: 1px solid #eaeaea;
     margin-bottom: 10px;
-  border-radius: 2px;
+    border-radius: 2px;
     &[data-zebra=false] {
       background: white;
     }
@@ -24,15 +24,28 @@
   }
   > li {
     border: none;
+    border-bottom: 1px solid #eaeaea;
   }
 }
 
 .time {
-font-size: 14px;
-margin-left: 10px;
-color: $grey;
+  font-size: 14px;
+  margin-left: 10px;
+  color: $grey;
 }
 
 .meta {
-margin-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+@media all and (max-width: 600px) {
+  .comments {
+    padding: 0;
+    ul {
+      padding: 0;
+    }
+    li {
+      padding: 3px;
+    }
+  }
 }

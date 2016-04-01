@@ -2,7 +2,7 @@ import c from '../constants'
 const initialState = {
   loading: false,
   items: {},
-  currentId: undefined
+  currentId: ''
 }
 
 function comments(state = initialState, action) {

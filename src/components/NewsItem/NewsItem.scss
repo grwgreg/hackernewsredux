@@ -36,3 +36,9 @@
     padding-right: 6px;
   }
 }
+
+@media all and (max-width: 600px) {
+  .meta {
+    display: block;
+  }
+}

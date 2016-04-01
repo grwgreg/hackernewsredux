@@ -13,7 +13,7 @@ describe('Comments reducers', ()=> {
     const initialState = {
       loading: false,
       items: {},
-      currentId: undefined
+      currentId: ''
     }
 
     expect(reducer(undefined, {}))
@@ -26,12 +26,12 @@ describe('Comments reducers', ()=> {
     const state = {
       loading: false,
       items: {},
-      currentId: undefined
+      currentId: ''
     }
     const newState = {
       loading: true,
       items: {},
-      currentId: undefined
+      currentId: ''
     }
 
     expect(reducer(state, { type: c.LOAD_COMMENTS_START }))
@@ -44,18 +44,18 @@ describe('Comments reducers', ()=> {
     const state = {
       loading: true,
       items: {},
-      currentId: undefined
+      currentId: ''
     }
     const newState = {
       loading: false,
       items: {},
-      currentId: 44
+      currentId: '44'
     }
 
     expect(reducer(state, {
       type: c.SET_COMMENTS_CURRENT_ID,
       payload: {
-        id: 44
+        id: '44'
       }
      }))
       .to.deep.equal(newState)
@@ -66,22 +66,22 @@ describe('Comments reducers', ()=> {
 
     const state = {
       loading: true,
-      items: {44: {id:44}},
-      currentId: 44
+      items: {44: {id:'44'}},
+      currentId: '44'
     }
     const newState = {
       loading: false,
       items: {
-        44: {id:44},
-        55: {id:55}
+        44: {id:'44'},
+        55: {id:'55'}
       },
-      currentId: 55
+      currentId: '55'
     }
 
     expect(reducer(state, {
       type: c.LOAD_COMMENTS_SUCCESS,
       payload: {
-        comments: {id:55}
+        comments: {id:'55'}
       }
      }))
       .to.deep.equal(newState)
@@ -93,12 +93,12 @@ describe('Comments reducers', ()=> {
     const state = {
       loading: true,
       items: {44: {id:44}},
-      currentId: 44
+      currentId: '44'
     }
     const newState = {
       loading: false,
       items: {44: {id:44}},
-      currentId: 44
+      currentId: '44'
     }
 
     expect(reducer(state, {

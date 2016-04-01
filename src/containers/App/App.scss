@@ -1,4 +1,4 @@
-@import '../../styles/colors';
+@import "../../styles/colors";
 
 .logo {
   float: left;
@@ -7,23 +7,34 @@
 
 .nav {
   float: right;
-    margin:0;
-    padding:0;
-    font-size: 15px;
-    li {
-      float: left;
-      list-style: none;
-      padding: 0 12px;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  li {
+    float: left;
+    list-style: none;
+    padding: 0 2px;
+    a {
+      display: block;
+      padding: 0 10px;
+      border-bottom: 3px solid transparent;
+      color: $purple;
+      &:hover,
+      &.active {
+        border-bottom: 3px solid $purple;
+      }
     }
-}
-
-.active {
-  background: pink;
+  }
 }
 
 .header {
   background: $beige;
   line-height: 50px;
+  border-bottom: 1px solid #eaeaea;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 .logo i {
@@ -34,5 +45,35 @@
 }
 
 .main {
-padding-top: 30px;
+  padding-top: 100px;
+}
+
+
+@media all and (max-width: 600px) {
+.main {
+padding-top: 20px;
+}
+
+.header {
+position: static;
+}
+
+.logo,
+.nav {
+float: none;
+text-align: center;
+}
+.nav {
+padding: 10px;
+border-top: 2px solid $purple;
+li {
+float: none;
+    line-height: normal;
+a:hover,
+a.active {
+border-color: transparent;
+}
+}
+}
+
 }

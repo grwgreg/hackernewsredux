@@ -1,18 +1,11 @@
 import { renderComponent , expect } from '../test_helper';
-//import App from '../../src/containers/App';
-import {Comments} from '../../src/containers/Comments';
+import Comments from '../../src/components/Comments';
 
 describe('Comments Component' , () => {
   let component;
 
   beforeEach(() => {
     const props = {
-      loadComments() {
-        return {type: 'NOOP'}
-      },
-      params: {
-        id: 2
-      },
       comments: {
         loading: false,
         currentId: 44,

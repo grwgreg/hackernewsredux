@@ -14,21 +14,30 @@ function renderComments(zebra, comments) {
     <li key={comment.id} data-id={comment.id} data-zebra={zebra}>
       <div className={styles.meta}>{by}<span className={styles.time}>{time}</span></div>
       <div dangerouslySetInnerHTML={{__html: comment.text}}></div>
-      {children.length && <ul>{children}</ul>}
+      {children.length ? <ul>{children}</ul> : ''}
     </li>
   )
 }
 
-export default React.createClass({
+const Comments = React.createClass({
   render() {
     const {items, currentId} = this.props.comments
     const comments = items[currentId]
     return (
       <div>
         <ul className={styles.comments}>
-          {comments && comments.childComments.map(renderComments.bind(null, true))}
+          {comments ? comments.childComments.map(renderComments.bind(null, true)) : ''}
         </ul>
       </div>
     )
   }
 })
+
+Comments.propTypes = {
+  comments: React.PropTypes.shape({
+    items: React.PropTypes.object.isRequired,
+    currentId: React.PropTypes.string.isRequired
+  }).isRequired
+}
+
+export default Comments
